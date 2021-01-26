@@ -1,0 +1,7 @@
+(library
+ (name lilac)
+ (libraries base yaml yaml.unix))
+
+(env
+  (dev
+    (flags (:standard -warn-error -A))))
