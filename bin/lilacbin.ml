@@ -37,6 +37,6 @@ let info =
     `S Manpage.s_bugs;
     `P "Report bugs by raising an issue at https://github.com/shnewto/lilac/issues";]
   in
-  Term.info "lilac" ~version:"0.1.0" ~doc ~exits:Term.default_exits ~man
+  Term.info "lilac" ~version:"v0.1.0~dev" ~doc ~exits:Term.default_exits ~man
 
 let () = Term.exit @@ Term.eval (lilac_t, info)

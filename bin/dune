@@ -1,6 +1,6 @@
 (executable
  (public_name lilac)
- (name bin)
+ (name lilacbin)
  (libraries lilac cmdliner stdio))
 
  (env

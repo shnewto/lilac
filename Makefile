@@ -1,7 +1,7 @@
 default: clean build
 
 run: clean build
-	./_build/default/bin/bin.exe $(args)
+	./_build/default/bin/lilacbin.exe $(args)
 
 clean:
 	dune clean
