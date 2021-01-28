@@ -1,3 +1,5 @@
+[![.github/workflows/ci.yml](https://github.com/shnewto/lilac/workflows/.github/workflows/ci.yml/badge.svg)](https://github.com/shnewto/lilac/actions)
+
 # lilac
 
 A library exposing symbols to read YAML from a path, to unpack that YAML into parts, and ultimately to construct some objects for repurposing.
