@@ -10,7 +10,7 @@ lilac currently has a pretty narrow scope. The `read_config` symbol takes a stri
 
 The `create_config` symbol is really where the scope narrows to a particular use case. It takes a `Yaml.value` (returned by `read_config`) and creates a couple data structures.
 
-There's an example YAML file in this repo's [test/res/ directory](https://github.com/shnewto/lilac/tree/main/test/res), but the shape of YAML required is this:
+There's an example YAML file in this repo's [test/res/](https://github.com/shnewto/lilac/tree/main/test/res) directory, but the shape of YAML the meat of the lib is looking for is this:
 
 ```
 lilac-params:
