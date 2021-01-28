@@ -1,7 +1,7 @@
 open Lilac
 open Base
 
-let print_workspace_values ws prefix =
+let print_target_values ws prefix =
   let url = Option.value ~default:"" ws.url in
   let user = Option.value ~default:"" ws.user in
   let cred = Option.value ~default:"" ws.cred in
@@ -10,14 +10,14 @@ let print_workspace_values ws prefix =
   prefix ^ "cred: " ^ cred |> Stdio.print_endline
 
 
-let print_workspace ~n ws =
+let print_target ~n ws =
   n ^ ": \n" |> Stdio.print_endline;
-  print_workspace_values ws "\t"
+  print_target_values ws "\t"
 
 let debug fin =
   let cf = read_config fin |> create_config in
-    Option.iter cf.source ~f:( fun ws -> print_workspace ~n:"source" ws);
-    Option.iter cf.dest ~f:( fun ws -> print_workspace ~n:"dest" ws)
+    Option.iter cf.source ~f:( fun ws -> print_target ~n:"source" ws);
+    Option.iter cf.dest ~f:( fun ws -> print_target ~n:"dest" ws)
 
 open Cmdliner
 

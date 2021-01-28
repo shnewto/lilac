@@ -1,10 +1,10 @@
 # lilac
 
-A CLI app that reads takes a path to a very particular shape of YAML file as input, then constructs some data structures from it.
+A library exposing symbols to read YAML from a path, to unpack that YAML into parts, and ultimately to construct some objects for repurposing.
 
 ## Summary
 
-lilac currently has a pretty narrow scope. The `read_config` symbol takes a string file path and creates a `Yaml.value`. If you just need a data structure and a few convenience functions to juggle YAML yourself, this will do the trick! (though it'd likely be much more straight forward to just install the `yaml` package and make the call to `Yaml_unix.of_file_exn Fpath.(v path)` yourself haha).
+lilac currently has a pretty narrow scope. The `read_config` symbol takes a string file path and creates a `Yaml.value`. If you just need a data structure and a few convenience functions to juggle YAML yourself, this will do the trick! (though it'd likely be much more straight forward to just install the `yaml` package and make the call to `Yaml_unix.of_file_exn Fpath.(v path)` yourself and decide where you do and don't want `option` types haha).
 
 The `create_config` symbol is really where the scope narrows to a particular use case. It takes a `Yaml.value` (returned by `read_config`) and creates a couple data structures.
 
@@ -22,18 +22,18 @@ lilac-params:
     cred:
 ```
 
-From that file, these data structures are generated. For examples of their usage, check out either [the tests](https://github.com/shnewto/lilac/blob/main/test/lilac_tests.ml) (most straight forward in my opinion), or the debugging logic in the [lilacbin.ml](https://github.com/shnewto/lilac/blob/main/bin/lilacbin.ml) CLI app.
+From that file, these data structures are generated for use. For examples of their usage, check out either [the tests](https://github.com/shnewto/lilac/blob/main/test/lilac_tests.ml) (most straight forward in my opinion), or the debugging logic in the [lilacbin.ml](https://github.com/shnewto/lilac/blob/main/bin/lilacbin.ml) CLI app.
 
 ```
-type 'a workspace = {
+type 'a target = {
     url: string option;
     user: string option;
     cred: string option;
 }
 
 type 'a config = {
-    source: 'a workspace option;
-    dest: 'a workspace option;
+    source: 'a target option;
+    dest: 'a target option;
 }
 ```
 
