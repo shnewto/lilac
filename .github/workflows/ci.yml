@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: checkout repo
-        uses: actions/checkout@v0.1.0
+        uses: actions/checkout@v1
 
       - name: get ocaml ${{ matrix.ocaml-version }}
         uses: avsm/setup-ocaml@v1
