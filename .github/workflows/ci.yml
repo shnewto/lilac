@@ -59,15 +59,5 @@ jobs:
         run: bisect-ppx-report html
       - name: report coverage
         run: bisect-ppx-report summary
-      - name: upload to codecov.io
-        uses: codecov/codecov-action@v1.0.2
-        with:
-          token: ${{secrets.CODECOV_TOKEN}}
-      - name: archive code coverage results
-        uses: actions/upload-artifact@v1
-        with:
-          name: code-coverage-report
-          path: ./_coverage/coverage.js
-
-# find . -name '*.coverage' | xargs rm -f
-# dune runtest --instrument-with bisect_ppx --force
+      - name: send to codeco
+        run: bisect-ppx-report send-to Codecov
