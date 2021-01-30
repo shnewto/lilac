@@ -56,8 +56,8 @@ jobs:
       - name: test with coverage
         run: opam exec -- dune runtest --instrument-with bisect_ppx --force
       - name: generage coverage
-        run: bisect-ppx-report html
+        run: opam exec -- bisect-ppx-report html
       - name: report coverage
-        run: bisect-ppx-report summary
+        run: opam exec -- bisect-ppx-report summary
       - name: send to codecov
-        run: bisect-ppx-report send-to Codecov
+        run: opam exec -- bisect-ppx-report send-to Codecov
