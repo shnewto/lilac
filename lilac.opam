@@ -8,7 +8,16 @@ dev-repo: "git+https://github.com/shnewto/lilac"
 bug-reports: "https://github.com/shnewto/lilac/issues"
 tags: [ "library" "lib" "lilac" "yaml" ]
 license: "MIT"
-depends: [ "dune" "cmdliner" "stdio" "base" "ounit" "yaml" "ocaml" {>= "4.10.0"} ]
+depends: [ 
+  "cmdliner" 
+  "stdio" 
+  "base" 
+  "ounit" 
+  "yaml" 
+  "dune" {>= "2.7.0"}
+  "ocaml" {>= "4.10.0"}
+  "bisect_ppx" {dev & >= "2.5.0"} 
+]
 build: [
   [ "dune" "build" ]
 ]

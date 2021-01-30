@@ -3,14 +3,10 @@
  (libraries lilac base oUnit)
  (deps (source_tree res)))
 
-(alias
-  (name    runtest)
-  (deps    (:x lilac_tests.exe))
-  (action  (run %{x})))
-
-(alias
-  (name    buildtest)
-  (deps    (:x lilac_tests.exe)))
+(rule
+ (alias runtest)
+ (deps    (:x lilac_tests.exe))
+ (action (run %{x})))
 
 (env
   (dev

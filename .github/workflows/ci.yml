@@ -13,7 +13,6 @@ jobs:
       matrix:
         os:
           - macos-latest
-          - ubuntu-latest
 # Need to learn more about ocaml and opam on windows, this fails with some cygwin and
 # pkg-config errors I haven't pinned down
 #         - windows-latest 
@@ -30,11 +29,45 @@ jobs:
         uses: avsm/setup-ocaml@v1.1.5
         with:
           ocaml-version: ${{ matrix.ocaml-version }}
+      - name: pin
+        run: opam pin add . --yes --no-action
+      - name: opam install
+        run: opam install . --deps-only --with-doc --with-test
+      - name: build
+        run: opam exec -- dune build
+      - name: test 
+        run: opam exec -- dune runtest
 
-      - run: opam pin add . --yes --no-action
+  test-ubuntu-latest-with-coverage:
+    name: ubuntu-latest test with coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: get ocaml
+        uses: avsm/setup-ocaml@v1.1.5
+        with:
+          ocaml-version: 4.11.1
+      - name: pin
+        run: opam pin add . --yes --no-action
+      - name: opam install
+        run: opam install . --deps-only --with-doc --with-test
+      - name: build
+        run: opam exec -- dune build
+      - name: test with coverage
+        run: dune runtest --instrument-with bisect_ppx --force
+      - name: generage coverage
+        run: bisect-ppx-report html
+      - name: report coverage
+        run: bisect-ppx-report summary
+      - name: upload to codecov.io
+        uses: codecov/codecov-action@v1.0.2
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+      - name: archive code coverage results
+        uses: actions/upload-artifact@v1
+        with:
+          name: code-coverage-report
+          path: ./_coverage/coverage.js
 
-      - run: opam install . --deps-only --with-doc --with-test
-
-      - run: opam exec -- dune build
-
-      - run: opam exec -- dune runtest
+# find . -name '*.coverage' | xargs rm -f
+# dune runtest --instrument-with bisect_ppx --force
