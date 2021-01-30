@@ -54,7 +54,7 @@ jobs:
       - name: build
         run: opam exec -- dune build
       - name: test with coverage
-        run: dune runtest --instrument-with bisect_ppx --force
+        run: opam exec -- dune runtest --instrument-with bisect_ppx --force
       - name: generage coverage
         run: bisect-ppx-report html
       - name: report coverage
