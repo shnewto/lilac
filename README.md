@@ -1,4 +1,5 @@
 [![.github/workflows/ci.yml](https://github.com/shnewto/lilac/workflows/.github/workflows/ci.yml/badge.svg)](https://github.com/shnewto/lilac/actions)
+[![codecov](https://codecov.io/gh/shnewto/lilac/branch/main/graph/badge.svg?token=0OUYOWVMOL)](https://codecov.io/gh/shnewto/lilac)
 
 # lilac
 
