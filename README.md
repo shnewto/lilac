@@ -57,7 +57,7 @@ Otherwise, see the Developing section below.
 ## Developing
 ## Dev dependencies
 
-For local development, I'll recommend not installing with opam beforehand. Once you've cloned the repo and have naviated into its directory, you'll want to run these commands, in this order:
+For local development, I'll recommend not installing with opam beforehand. Once you've cloned the repo and have navigated into its directory, you'll want to run these commands, in this order:
 
 - `opam pin .`
 - `opam install . --deps-only`
