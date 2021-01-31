@@ -38,7 +38,7 @@ let lilac_test = [
 
   "Look at the stars" >:: ae "\n\n\n         ✧\n       ✧\n                    ✧\n  ✧\n     ✧\n          ✧\n  ✧\n          ✧\n                   ✧\n           ✧\n   ✧\n                ✧\n                 ✧\n\n\n\n\n\n\n\n\n" constellation;
 
-  "Source url" >:: ae_option (Some "https://ttaw.dev") (yaml () |> yaml_value ~path:"lilac-params.source.url");
+  "Source url" >:: ae_option (Some "https://ttaw.dev") (yaml () |> yaml_value_str ~path:"lilac-params.source.url");
 
   "Read config succeeds" >:: ae_option (Some expected_config) (Some(yaml () |> to_string_trim ));
 
@@ -46,40 +46,50 @@ let lilac_test = [
 
   "Source user" >:: ae_option 
     (Some "lilac+source@ttaw.dev")
-    (yaml () |> yaml_value ~path:"lilac-params.source.user")
+    (yaml () |> yaml_value_str ~path:"lilac-params.source.user")
     ;
 
   "Source cred" >:: ae_option 
     (Some "${LILAC_SOURCE_CRED}")
-    (yaml () |> yaml_value ~path:"lilac-params.source.cred")
+    (yaml () |> yaml_value_str ~path:"lilac-params.source.cred")
     ;
 
   "Dest url" >:: ae_option 
     (Some "https://walkandtalk.dev")
-    (yaml () |> yaml_value ~path:"lilac-params.dest.url")
+    (yaml () |> yaml_value_str ~path:"lilac-params.dest.url")
     ;
 
   "Dest user" >:: ae_option 
     (Some "lilac+dest@walkandtalk.dev")
-    (yaml () |> yaml_value ~path:"lilac-params.dest.user")
+    (yaml () |> yaml_value_str ~path:"lilac-params.dest.user")
     ;
 
   "Dest cred" >:: ae_option 
     (Some "${LILAC_DEST_CRED}")
-    (yaml () |> yaml_value ~path:"lilac-params.dest.cred")
+    (yaml () |> yaml_value_str ~path:"lilac-params.dest.cred")
     ;
 
   "Not present source value" >:: ae_option 
-    None (yaml () |> yaml_value ~path:"lilac-params.source.not-present");
+    None (yaml () |> yaml_value_str ~path:"lilac-params.source.not-present");
 
   "Not present dest value" >:: ae_option 
-    None (yaml () |> yaml_value ~path:"lilac-params.dest.not-present");
+    None (yaml () |> yaml_value_str ~path:"lilac-params.dest.not-present");
 
   "Not present lilac-params value" >:: ae_option 
-    None (yaml () |> yaml_value ~path:"lilac-params.not-present");
+    None (yaml () |> yaml_value_str ~path:"lilac-params.not-present");
   
   "Retreives sinlge element" >:: ae_option 
     (Some "1234") (retrieve ~keys:["c"] (Yaml.of_string "c: 1234" |> Result.ok));
+
+  "Retreive empty results in None" >:: ae_option 
+    None (retrieve ~keys:[] (Yaml.of_string "c: 1234" |> Result.ok));
+
+  "key not found" >:: ae_option 
+    None (yaml_get_key ~k:"" (Yaml.of_string "c: 1234" |> Result.ok) |> Option.map ~f:to_string_trim);
+
+  "key not found" >:: ae_option 
+    None (yaml_get_key ~k:"" (Yaml.of_string "null" |> Result.ok) |> Option.map ~f:to_string_trim);
+
 ]
 
 let () =

@@ -6,7 +6,7 @@ There's an example YAML file in this repo's [test/res/ directory](https://github
 open Base
 
 (** Attempt to find key ~k in the yml object *)
-let yaml_get k (yaml : Yaml.value option) = match yaml with
+let yaml_get_key ~k (yaml : Yaml.value option) = match yaml with
   | Some(`O assoc) -> Stdlib.List.assoc_opt k assoc
   | _ -> None
 
@@ -17,11 +17,12 @@ let to_string_trim y =
 (** Traverse ks list as yaml object and return the termonial state's value or None *)
 let rec retrieve ~keys yaml =
     match keys with 
-    | [e] -> yaml_get e yaml |> Option.map ~f:to_string_trim
-    | h::t -> retrieve ~keys:t (yaml_get h yaml) 
+    | [e] -> yaml_get_key ~k:e yaml |> Option.map ~f:to_string_trim
+    | h::t -> retrieve ~keys:t (yaml_get_key ~k:h yaml) 
     | _ -> None
 
 (** 
+Returns a string representatoin of the value of a given yaml field.
 Example:
 ```
 let yaml = yaml_from_fpath "test/res/config.yaml" in
@@ -30,7 +31,7 @@ let yaml = yaml_from_fpath "test/res/config.yaml" in
   |>  Stdio.print_endline;
 ```
  *)
-let yaml_value ~path (yaml : Yaml.value) = 
+let yaml_value_str ~path (yaml : Yaml.value) = 
     let keys = String.split path ~on:'.' in
     Some yaml |> retrieve ~keys:keys
     

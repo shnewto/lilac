@@ -19,13 +19,13 @@ lilac-params:
     user: "lilac+dest@walkandtalk.dev"
 ```
 
-To get `lilac+source@ttaw.dev`, you'd pass `lilac-params.source.user` to lilac's `yaml_value` symbol.
+To get `lilac+source@ttaw.dev`, you'd pass `lilac-params.source.user` to lilac's `yaml_value_str` symbol.
 
 Here's an example of how you might do that in code with the yaml used in this project's `test/res` directory:
 
 ```ocaml
 let yaml = yaml_from_fpath "test/res/config.yaml" in
-  yaml_value ~path:"lilac-params.source.user" yaml 
+  yaml_value_str ~path:"lilac-params.source.user" yaml 
   |> Option.value ~default:"Oops! It wasn't there." 
   |>  Stdio.print_endline;
 ```

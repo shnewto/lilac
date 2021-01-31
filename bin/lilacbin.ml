@@ -3,10 +3,10 @@ open Base
 
 let debug fin =
   let yaml = yaml_from_fpath fin  in
-    yaml_value ~path:"lilac-params.source.user" yaml |> Option.value ~default:"n/a" |>  Stdio.print_endline;
-    yaml_value ~path:"lilac-params.source.cred" yaml |> Option.value ~default:"n/a" |>  Stdio.print_endline;
-    yaml_value ~path:"lilac-params.source.url" yaml |> Option.value ~default:"n/a" |>  Stdio.print_endline;
-    yaml_value ~path:"lilac-params" yaml |> Option.value ~default:"n/a" |>  Stdio.print_endline;
+    yaml_value_str ~path:"lilac-params.source.user" yaml |> Option.value ~default:"n/a" |>  Stdio.print_endline;
+    yaml_value_str ~path:"lilac-params.source.cred" yaml |> Option.value ~default:"n/a" |>  Stdio.print_endline;
+    yaml_value_str ~path:"lilac-params.source.url" yaml |> Option.value ~default:"n/a" |>  Stdio.print_endline;
+    yaml_value_str ~path:"lilac-params" yaml |> Option.value ~default:"n/a" |>  Stdio.print_endline;
 
 open Cmdliner
 
