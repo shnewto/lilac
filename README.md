@@ -3,11 +3,11 @@
 
 # lilac
 
-A library exposing symbols to read YAML from a path, to unpack that YAML into parts, and ultimately to construct some objects for repurposing.
+lilac is a simple library for getting the value of any field in a YAML file as a string.
 
 ## Summary
 
-lilac is a simple library to retrieve the value of any YAML field by specifying its path. Take this example yaml:
+Take this example yaml:
 
 ```yaml
 lilac-params:
@@ -24,7 +24,7 @@ To get `lilac+source@ttaw.dev`, you'd pass `lilac-params.source.user` to lilac's
 Here's an example of how you might do that in code with the yaml used in this project's `test/res` directory:
 
 ```ocaml
-let yaml = yaml_from_fpath "./test/res/config.yaml" in
+let yaml = yaml_from_fpath "test/res/config.yaml" in
   yaml_value ~path:"lilac-params.source.user" yaml 
   |> Option.value ~default:"Oops! It wasn't there." 
   |>  Stdio.print_endline;
