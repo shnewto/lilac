@@ -3,6 +3,7 @@
  (name lilacbin)
  (libraries lilac cmdliner stdio))
 
- (env
-  (dev
-    (flags (:standard -warn-error -A))))
+(env
+ (dev
+  (flags
+   (:standard -warn-error -A))))

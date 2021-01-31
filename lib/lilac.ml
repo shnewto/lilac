@@ -1,8 +1,7 @@
-(** The `read_config` symbol takes a string file path and creates a `Yaml.value`. If you just need a data structure and a few convenience functions to juggle YAML yourself, this will do the trick! (though it'd likely be much more straight forward to just install the `yaml` package and make the call to `Yaml_unix.of_file_exn Fpath.(v path)` yourself and decide where you do and don't want `option` types haha).
+(** The `yaml_from_fpath` symbol takes a string file path and creates a `Yaml.value`.
 
-The `create_config` symbol is really where the scope narrows to a particular use case. It takes a `Yaml.value` (returned by `read_config`) and creates a couple data structures.
-
-There's an example YAML file in this repo's [test/res/ directory](https://github.com/shnewto/lilac/tree/main/test/res). *)
+The `yaml_value_str` takes an object path, i.e. `obj.fielda.fieldb` and returns a string option if there's 
+a value defined. *)
 open Base
 
 (** Attempt to find key ~k in the yml object *)

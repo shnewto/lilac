@@ -1,8 +1,10 @@
 (library
  (name lilac)
  (libraries base yaml yaml.unix)
- (instrumentation (backend bisect_ppx)))
+ (instrumentation
+  (backend bisect_ppx)))
 
 (env
-  (dev
-    (flags (:standard -warn-error -A))))
+ (dev
+  (flags
+   (:standard -warn-error -A))))
