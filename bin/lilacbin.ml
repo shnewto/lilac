@@ -1,23 +1,12 @@
 open Lilac
 open Base
 
-let print_target_values ws prefix =
-  let url = Option.value ~default:"" ws.url in
-  let user = Option.value ~default:"" ws.user in
-  let cred = Option.value ~default:"" ws.cred in
-  prefix ^ "url: " ^ url |> Stdio.print_endline;
-  prefix ^ "user: " ^ user |> Stdio.print_endline;
-  prefix ^ "cred: " ^ cred |> Stdio.print_endline
-
-
-let print_target ~n ws =
-  n ^ ": \n" |> Stdio.print_endline;
-  print_target_values ws "\t"
-
 let debug fin =
-  let cf = read_config fin |> create_config in
-    Option.iter cf.source ~f:( fun ws -> print_target ~n:"source" ws);
-    Option.iter cf.dest ~f:( fun ws -> print_target ~n:"dest" ws)
+  let yaml = yaml_from_fpath fin  in
+    yaml_value ~path:"lilac-params.source.user" yaml |> Option.value ~default:"n/a" |>  Stdio.print_endline;
+    yaml_value ~path:"lilac-params.source.cred" yaml |> Option.value ~default:"n/a" |>  Stdio.print_endline;
+    yaml_value ~path:"lilac-params.source.url" yaml |> Option.value ~default:"n/a" |>  Stdio.print_endline;
+    yaml_value ~path:"lilac-params" yaml |> Option.value ~default:"n/a" |>  Stdio.print_endline;
 
 open Cmdliner
 

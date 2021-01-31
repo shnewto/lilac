@@ -6,79 +6,27 @@ There's an example YAML file in this repo's [test/res/ directory](https://github
 open Base
 
 (** Attempt to find key ~k in the yml object *)
-let yaml_get ~k (yml : Yaml.value) = match yml with
-  | `O assoc -> Stdlib.List.assoc_opt k assoc
+let yaml_get k (yml : Yaml.value option) = match yml with
+  | Some(`O assoc) -> Stdlib.List.assoc_opt k assoc
   | _ -> None
-
-(** Data structure built from parsed YAML of the shape
-    url:
-    user: 
-    cred:
-*)
-type 'a target = {
-    url: string option;
-    user: string option;
-    cred: string option;
-}
-
-(** Container for YAML types/values in YAML of the shape
-    lilac-params:
-    source:
-        url:
-        user:
-        cred:
-    dest:
-        url:
-        user:
-        cred:
- *)
-type 'a config = {
-    source: 'a target option;
-    dest: 'a target option;
-}
-
-(** See if we can get a string from the object we have. Raises like the `to_string_exn` does if we fail. *)
-let try_to_string (y: Yaml.value) =
-    try
-        Yaml.to_string_exn y
-    with
-    | Invalid_argument m -> Invalid_argument m |> raise
-    | e -> raise e
 
 (** The string values pulled from the YAML definition have `\n` characters at the end, this gets rid of them. *)
 let to_string_trim y =
     y |> Yaml.to_string_exn |> String.strip
 
-(** Takes a Yaml.value and tries to find "url", "user", and "cred" objects inside. *)
-let create_target yaml =  {
-    url = yaml_get ~k:"url" yaml |> Option.map ~f:to_string_trim;
-    user = yaml_get ~k:"user" yaml |> Option.map ~f:to_string_trim;
-    cred = yaml_get ~k:"cred" yaml |> Option.map ~f:to_string_trim;
-}
+(** Traverse ks list and call f on  *)
+let rec retrieve ~keys yaml =
+    match keys with 
+    | [e] -> yaml_get e yaml |> Option.map ~f:to_string_trim
+    | h::t -> retrieve ~keys:t (yaml_get h yaml) 
+    | _ -> None
 
-(** The assoc list is what you end up with the key you were looking for was in the Yaml.value. This gets the 
-YAML object associated with that key. *)
-let assoc_get ~k assoc =
-    List.find ~f:(fun (s, _) -> String.equal s k) assoc
-
-(** Takes a Yaml.value and tries to find a "lilac-params" object inside. *)
-let target_yaml ~k (yaml: Yaml.value) =
-    let values = match yaml_get ~k:"lilac-params" yaml with
-    | Some value -> yaml_get ~k:k value
-    | None -> None
-    in
-    match values with
-    | Some value -> Some(create_target value)
-    | None -> None
-
-(** Takes a Yaml.value and tries to find a "source" and "dest" objects inside. *)
-let create_config (yaml: Yaml.value) = {
-    source = target_yaml ~k:"source" yaml;
-    dest = target_yaml ~k:"dest" yaml;
-}
-
+let yaml_value ~path yaml = 
+    let keys = String.split path ~on:'.' in
+    Some yaml |> retrieve ~keys:keys
+    
 (** Takes a file path and builds a Yaml.value *)
-let read_config path =
+let yaml_from_fpath path =
     Yaml_unix.of_file_exn Fpath.(v path)
 
 (** Something nice to have around. *)

@@ -7,40 +7,31 @@ A library exposing symbols to read YAML from a path, to unpack that YAML into pa
 
 ## Summary
 
-lilac currently has a pretty narrow scope. The `read_config` symbol takes a string file path and creates a `Yaml.value`. If you just need a data structure and a few convenience functions to juggle YAML yourself, this will do the trick! (though it'd likely be much more straight forward to just install the `yaml` package and make the call to `Yaml_unix.of_file_exn Fpath.(v path)` yourself and decide where you do and don't want `option` types haha).
+lilac is a simple library to retrieve the value of any YAML field by specifying its path. Take this example yaml:
 
-The `create_config` symbol is really where the scope narrows to a particular use case. It takes a `Yaml.value` (returned by `read_config`) and creates a couple data structures.
-
-There's an example YAML file in this repo's [test/res/](https://github.com/shnewto/lilac/tree/main/test/res) directory, but the shape of YAML the meat of the lib is looking for is this:
-
-```
+```yaml
 lilac-params:
   source:
-    url:
-    user:
-    cred:
+    url: "https://ttaw.dev"
+    user: "lilac+source@ttaw.dev"
   dest:
-    url:
-    user:
-    cred:
+    url: "https://walkandtalk.dev"
+    user: "lilac+dest@walkandtalk.dev"
 ```
 
-From that file, these data structures are generated for use. For examples of their usage, check out either [the tests](https://github.com/shnewto/lilac/blob/main/test/lilac_tests.ml) (most straight forward in my opinion), or the debugging logic in the [lilacbin.ml](https://github.com/shnewto/lilac/blob/main/bin/lilacbin.ml) CLI app.
+To get `lilac+source@ttaw.dev`, you'd pass `lilac-params.source.user` to lilac's `yaml_value` symbol.
 
-```
-type 'a target = {
-    url: string option;
-    user: string option;
-    cred: string option;
-}
+Here's an example of how you might do that in code with the yaml used in this project's `test/res` directory:
 
-type 'a config = {
-    source: 'a target option;
-    dest: 'a target option;
-}
+```ocaml
+let yaml = yaml_from_fpath "./test/res/config.yaml" in
+  yaml_value ~path:"lilac-params.source.user" yaml 
+  |> Option.value ~default:"Oops! It wasn't there." 
+  |>  Stdio.print_endline;
 ```
 
-The `lilacbin` app in this repo's `bin/` is mostly for debugging currently. It does have some niceties like a `--help` flag, but if there's something you're interested in it doing beyond debugging, let me know! Raising an issue is my preferred channel for that kinda thing.
+### lilacbin
+The `lilacbin` app in this repo's `bin/` is just for debugging currently. It does have some niceties like a `--help` flag, but if there's something you're interested in it doing beyond debugging, let me know! Raising an issue is my preferred channel for that kinda thing.
 
 ## Dependencies
 
@@ -75,9 +66,13 @@ For local development, I'll recommend not installing with opam beforehand. Once 
 
 `make`
 
-## Running the test
+## Running the tests
 
 `make test`
+
+## Checking code coverage
+
+`make coverage`
 
 ## Running lilac bin for stdout debugging / validation
 
