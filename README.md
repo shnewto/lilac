@@ -19,19 +19,18 @@ lilac-params:
     user: "lilac+dest@walkandtalk.dev"
 ```
 
-To get `lilac+source@ttaw.dev`, you'd pass `lilac-params.source.user` to lilac's `yaml_value_str` symbol.
+To get the value `"lilac+source@ttaw.dev"`, you'd specify the path `lilac-params.source.user`.
 
 Here's an example of how you might do that in code with the yaml used in this project's `test/res` directory:
 
 ```ocaml
 let yaml = yaml_from_fpath "test/res/config.yaml" in
   yaml_value_str ~path:"lilac-params.source.user" yaml 
-  |> Option.value ~default:"Oops! It wasn't there." 
-  |>  Stdio.print_endline;
+  |> Option.value ~default:"Oops! It wasn't there."
 ```
 
 ### lilacbin
-The `lilacbin` app in this repo's `bin/` is just for debugging currently. It does have some niceties like a `--help` flag, but if there's something you're interested in it doing beyond debugging, let me know! Raising an issue is my preferred channel for that kinda thing.
+The `lilacbin` app in this repo's `bin/` is really just used for debugging. It does have some niceties like a `--help` flag, but if there's something you're interested in it doing beyond debugging, let me know! Raising an issue is my preferred channel for that kinda thing.
 
 ## Dependencies
 
@@ -39,7 +38,9 @@ I'll start with the basics for macOS because putting this project together requi
 serve as at least some direction for other operating systems but if you notice something important I've missed,
 please create an issue :heart:
 
-First you'll need `opam` and `ocaml`. For macOS:
+First you'll need `opam` and `ocaml`. 
+
+For macOS:
 
 - `brew install opam`
 - `brew install ocaml`
@@ -49,6 +50,7 @@ and the ocaml intallation docs live [here](https://ocaml.org/docs/install.html).
 
 Once OCaml and opam are installed, run `opam init` from the terminal to get the environment sorted. I chose to
 let it modify my terminal's rc file (`.zshrc`) so I wouldn't have to think about it again, but that's up to you :)
+
 ## Installing
 
 If you just want to install lilac as a library and use it in your application, you can run `opam install lilac`.
