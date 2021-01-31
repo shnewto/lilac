@@ -6,7 +6,7 @@ There's an example YAML file in this repo's [test/res/ directory](https://github
 open Base
 
 (** Attempt to find key ~k in the yml object *)
-let yaml_get k (yml : Yaml.value option) = match yml with
+let yaml_get k (yaml : Yaml.value option) = match yaml with
   | Some(`O assoc) -> Stdlib.List.assoc_opt k assoc
   | _ -> None
 
@@ -14,14 +14,23 @@ let yaml_get k (yml : Yaml.value option) = match yml with
 let to_string_trim y =
     y |> Yaml.to_string_exn |> String.strip
 
-(** Traverse ks list and call f on  *)
+(** Traverse ks list as yaml object and return the termonial state's value or None *)
 let rec retrieve ~keys yaml =
     match keys with 
     | [e] -> yaml_get e yaml |> Option.map ~f:to_string_trim
     | h::t -> retrieve ~keys:t (yaml_get h yaml) 
     | _ -> None
 
-let yaml_value ~path yaml = 
+(** 
+Example:
+```
+let yaml = yaml_from_fpath "test/res/config.yaml" in
+  yaml_value ~path:"lilac-params.source.user" yaml 
+  |> Option.value ~default:"Oops! It wasn't there." 
+  |>  Stdio.print_endline;
+```
+ *)
+let yaml_value ~path (yaml : Yaml.value) = 
     let keys = String.split path ~on:'.' in
     Some yaml |> retrieve ~keys:keys
     
