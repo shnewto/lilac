@@ -25,12 +25,12 @@ Here's an example of how you might do that in code with the yaml used in this pr
 
 ```ocaml
 let yaml = yaml_from_fpath "test/res/config.yaml" in
-  yaml_value_str ~path:"lilac-params.source.user" yaml 
+  yaml_value_str ~path:"lilac-params.source.user" yaml
   |> Option.value ~default:"Oops! It wasn't there."
 ```
 
 ### lilacbin
-The `lilacbin` app in this repo's `bin/` is really just used for debugging. It does have some niceties like a `--help` flag, but if there's something you're interested in it doing beyond debugging, let me know! Raising an issue is my preferred channel for that kinda thing.
+The `lilacbin` app in this repo's `bin/` is really just used for debugging, so it's dependencies are tagged as test only requirements in the package manifest. It does have some niceties like a `--help` flag, but if there's something you're interested in it doing beyond debugging, let me know! Raising an issue is my preferred channel for that kinda thing.
 
 ## Dependencies
 
@@ -38,7 +38,7 @@ I'll start with the basics for macOS because putting this project together requi
 serve as at least some direction for other operating systems but if you notice something important I've missed,
 please create an issue :heart:
 
-First you'll need `opam` and `ocaml`. 
+First you'll need `opam` and `ocaml`.
 
 For macOS:
 
@@ -62,7 +62,7 @@ Otherwise, see the Developing section below.
 For local development, I'll recommend not installing with opam beforehand. Once you've cloned the repo and have navigated into its directory, you'll want to run these commands, in this order:
 
 - `opam pin .`
-- `opam install . --deps-only`
+- `opam install . --deps-only --with-test`
 
 ## Building
 

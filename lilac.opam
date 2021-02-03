@@ -8,7 +8,7 @@ bug-reports: "https://github.com/shnewto/lilac/issues"
 tags: [ "library" "lib" "lilac" "yaml" ]
 license: "MIT"
 depends: [
-  "cmdliner" {dev & >= "1.0.4"}
+  "cmdliner" {with-test & >= "1.0.4"}
   "stdio" {>= "v0.9.0"}
   "base" {>= "v0.9.0"}
   "ounit" {with-test}
