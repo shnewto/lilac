@@ -30,7 +30,7 @@ let yaml = yaml_from_fpath "test/res/config.yaml" in
 ```
 
 ### lilacbin
-The `lilacbin` app in this repo's `bin/` is really just used for debugging, so it's dependencies are tagged as test only requirements in the package manifest. It does have some niceties like a `--help` flag, but if there's something you're interested in it doing beyond debugging, let me know! Raising an issue is my preferred channel for that kinda thing.
+The `lilacbin` app in this repo's `bin/` is really just used for debugging for now. It does have some niceties like a `--help` flag, but if there's something you're interested in it doing beyond debugging, let me know! Raising an issue is my preferred channel for that kinda thing.
 
 ## Dependencies
 
