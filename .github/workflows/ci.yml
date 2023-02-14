@@ -46,7 +46,7 @@ jobs:
       - name: get ocaml
         uses: avsm/setup-ocaml@v1.1.5
         with:
-          ocaml-version: ${{ matrix.ocaml-version }}
+          ocaml-version: 4.12
       - name: pin
         run: opam pin add . --yes --no-action
       - name: opam install
