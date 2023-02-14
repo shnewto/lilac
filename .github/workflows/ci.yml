@@ -16,8 +16,8 @@ jobs:
 # Need to learn more about ocaml and opam on windows, this fails with some cygwin and
 # pkg-config errors I haven't pinned down
 #         - windows-latest 
-        ocaml-version:
-          - 4.11.1
+        ocaml-compiler:
+          - 4.14.x
 
     runs-on: ${{ matrix.os }}
 
@@ -26,9 +26,9 @@ jobs:
         uses: actions/checkout@v1
 
       - name: get ocaml ${{ matrix.ocaml-version }}
-        uses: avsm/setup-ocaml@v1.1.5
+        uses: avsm/setup-ocaml@v2
         with:
-          ocaml-version: ${{ matrix.ocaml-version }}
+          ocaml-compiler: ${{ matrix.ocaml-compiler }}
       - name: pin
         run: opam pin add . --yes --no-action
       - name: opam install
@@ -44,9 +44,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: get ocaml
-        uses: avsm/setup-ocaml@v1.1.5
+        uses: avsm/setup-ocaml@v2
         with:
-          ocaml-version: 4.11.1
+          ocaml-compiler: 4.14.x
       - name: pin
         run: opam pin add . --yes --no-action
       - name: opam install
